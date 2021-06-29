@@ -1,6 +1,10 @@
 #include <SD.h>
 #include <Ethernet.h>
 
+byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
+IPAddress ip (192, 168, 0, 202);
+EthernetServer server (42069);
+
 void setup (){
   Serial.begin (9600);
 
@@ -10,6 +14,11 @@ void setup (){
   }else{
     Serial.println ("SD card initialization succesful!");
   }
+
+  Ethernet.begin (mac, ip);
+  server.begin ();
+  Serial.print ("Server started at ");
+  Serial.println (Ethernet.localIP ());
 }
 void loop (){
   
