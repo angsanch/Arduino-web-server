@@ -35,10 +35,11 @@ void loop () {
         }
         add = add == ((readed == ' ') == false); //Toggle add if readed char is an space
         if (readed == '\n') {
-          client.println("HTTP/1.1 200 OK");
-          client.println("Content-Type: text/html");
-          client.println("Connection: close");
-          client.println("Recieved");
+          client.println ("HTTP/1.1 200 OK");
+          client.println ("Content-Type: text/html");
+          client.println ("Connection: close");
+          client.println ();
+          client.println ("Recieved");
           Serial.println (request);
           Serial.println ("------------");
           break;
