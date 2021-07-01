@@ -1,6 +1,31 @@
 #include <SD.h>
 #include <Ethernet.h>
 
+class Parser {
+  private:
+    String _input;
+    int _index;
+
+  public:
+    String getPath () {
+      _index = _input.indexOf ("?");
+      if (_index != -1) {
+        return _input.substring (1, _index);//If there are args
+      }
+      return _input.substring (1, _input.length ());//If there isnt any args
+    }
+    String getArgs () {
+      _index = _input.indexOf ("?");
+      if (_index != -1) {
+        return _input.substring (_index + 1, _input.length ());//If there are args
+      }
+      return "";//If there isnt any args
+    }
+    void setInput (String input) {
+      _input = input;
+    }
+};
+
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 IPAddress ip (192, 168, 0, 202);
 EthernetServer server (42069);
