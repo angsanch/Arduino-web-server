@@ -70,6 +70,7 @@ void loop () {
           prs.setInput (request);
           String path = prs.getPath ();
           String arguments = prs.getArgs ();
+          process (client, path, arguments);//Redirect processing to a specialized function
 
           Serial.println (request);
           Serial.println ("------------");
