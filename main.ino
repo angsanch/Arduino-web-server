@@ -64,7 +64,13 @@ void loop () {
           client.println ("Content-Type: text/html");
           client.println ("Connection: close");
           client.println ();
-          client.println ("Recieved");
+          
+          //Process and send response to the request
+          Parser prs;
+          prs.setInput (request);
+          String path = prs.getPath ();
+          String arguments = prs.getArgs ();
+
           Serial.println (request);
           Serial.println ("------------");
           break;
