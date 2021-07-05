@@ -1,6 +1,7 @@
 class Args {
   private:
     String _input;
+    int _lastChecked = -1;
 
   public:
     void setInput (String args) {
@@ -8,15 +9,22 @@ class Args {
     }
 
     boolean exists (String tag) {
-      int index = _input.indexOf (tag);
-      if (index != -1) {
-        if (index == 0 || _input.charAt (index - 1 == '&')) {
-          if (_input.charAt (index + tag.length ()) == '=') {
-            return true;
+      String input = _input;//Copy because it maybe gets modificated
+      while (true) {
+        int index = input.indexOf (tag);
+        if (index != -1) {
+          if (index == 0 || input.charAt (index - 1 == '&')) {
+            if (input.charAt (index + tag.length ()) == '=') {
+              _lastChecked = index;
+              return true;
+            }
           }
+          input.setCharAt (index, "\\");
+        } else {
+          _lastChecked = -1;
+          return false;
         }
       }
-      return false;
     }
 };
 
