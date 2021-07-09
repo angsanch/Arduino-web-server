@@ -6,22 +6,21 @@ class Args {
   public:
     void setInput (String args) {
       _input = args;
-      _input.replace ("+", " ");
     }
 
     boolean exists (String tag) {
-      String input = _input;//Copy because it maybe gets modificated
+      int from = 0;
       while (true) {
-        int index = input.indexOf (tag);
+        int index = _input.indexOf (tag, from);
         Serial.println (index);
         if (index != -1) {
-          if (index == 0 || input.charAt (index - 1 == '&')) {
-            if (input.charAt (index + tag.length ()) == '=') {
+          if (index == 0 || _input.charAt (index - 1 == '&')) {
+            if (_input.charAt (index + tag.length ()) == '=') {
               _lastChecked = index;
               return true;
             }
           }
-          input.setCharAt (index, "\\");
+          from = index + 1;
         } else {
           _lastChecked = -1;
           return false;
