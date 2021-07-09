@@ -29,17 +29,17 @@ class Args {
     }
 
     String get (String tag) {
-      if (exists (tag)){
+      if (exists (tag)) {
         int openIndex = _lastChecked + tag.length () + 1;
         int closeIndex = _input.length ();
-        for (int i = openIndex; i < closeIndex; i++){
-          if (_input.charAt (i) == '&'){
+        for (int i = openIndex; i < closeIndex; i++) {
+          if (_input.charAt (i) == '&') {
             closeIndex = i;
             break;
           }
         }
         return _input.substring (openIndex, closeIndex);
-      }else{
+      } else {
         return "doesnt exist";
       }
     }
