@@ -12,7 +12,6 @@ class Args {
       int from = 0;
       while (true) {
         int index = _input.indexOf (tag, from);
-        Serial.println (index);
         if (index != -1) {
           if (index == 0 || _input.charAt (index - 1 == '&')) {
             if (_input.charAt (index + tag.length ()) == '=') {
@@ -31,14 +30,18 @@ class Args {
     String get (String tag) {
       if (exists (tag)) {
         int openIndex = _lastChecked + tag.length () + 1;
-        int closeIndex = _input.length ();
+        int closeIndex = _input.length () - 1;
         for (int i = openIndex; i < closeIndex; i++) {
           if (_input.charAt (i) == '&') {
             closeIndex = i;
             break;
           }
         }
-        return _input.substring (openIndex, closeIndex);
+        String result = "";
+        for (int i = openIndex; i < closeIndex; i++){
+          result += _input.charAt (i);
+        }
+        return result;
       } else {
         return "doesnt exist";
       }
@@ -49,5 +52,4 @@ void process (EthernetClient client, String path, String arguments) {
   hostFile ("index.htm", client);
   Args args;
   args.setInput (arguments);
-  Serial.println (args.get ("command"));
 }

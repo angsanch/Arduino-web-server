@@ -1,30 +1,21 @@
 #include <SD.h>
 #include <Ethernet.h>
 
-class Parser {
-  private:
-    String _input;
-    int _index;
 
-  public:
-    String getPath () {
-      _index = _input.indexOf ("?");
-      if (_index != -1) {
-        return _input.substring (1, _index);//If there are args
-      }
-      return _input.substring (1, _input.length ());//If there isnt any args
-    }
-    String getArgs () {
-      _index = _input.indexOf ("?");
-      if (_index != -1) {
-        return _input.substring (_index + 1, _input.length ());//If there are args
-      }
-      return "";//If there isnt any args
-    }
-    void setInput (String input) {
-      _input = input;
-    }
-};
+String getPath (String input) {
+  int index = input.indexOf ("?");
+  if (index != -1) {
+    return input.substring (1, index);//If there are args
+  }
+  return input.substring (1, input.length ());//If there isnt any args
+}
+String getArgs (String input) {
+  int index = input.indexOf ("?");
+  if (index != -1) {
+    return input.substring (index + 1, input.length ());//If there are args
+  }
+  return "";//If there isnt any args
+}
 
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 IPAddress ip (192, 168, 0, 202);
@@ -64,13 +55,9 @@ void loop () {
           client.println ("Content-Type: text/html");
           client.println ("Connection: close");
           client.println ();
-          
+
           //Process and send response to the request
-          Parser prs;
-          prs.setInput (request);
-          String path = prs.getPath ();
-          String arguments = prs.getArgs ();
-          process (client, path, arguments);//Redirect processing to a specialized function
+          process (client, getPath (request), getArgs (request));//Redirect processing to a specialized function
 
           Serial.println (request);
           Serial.println ("------------");
