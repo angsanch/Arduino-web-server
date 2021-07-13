@@ -1,3 +1,4 @@
+#include <SPI.h>
 #include <SD.h>
 #include <Ethernet.h>
 
@@ -18,7 +19,7 @@ String getArgs (String input) {
 }
 
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-IPAddress ip (192, 168, 0, 202);
+IPAddress ip (192, 168, 138, 202);
 EthernetServer server (42069);
 
 void setup () {
