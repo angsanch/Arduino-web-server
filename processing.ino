@@ -5,12 +5,6 @@ class Args {
 
   public:
     void setInput (String args) {
-      if (SD.exists ("args.txt")){
-        SD.remove ("args.txt");
-      }
-      File file = SD.open ("args.txt", FILE_WRITE);
-      file.println (args);
-      file.close ();
       _input = args;
     }
 
