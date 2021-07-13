@@ -44,7 +44,7 @@ class Args {
     }
 };
 
-void process (EthernetClient client, String path, String arguments) {
+void processGET (EthernetClient client, String path, String arguments) {
   hostFile ("index.htm", client);
   Args args;
   args.setInput (arguments);

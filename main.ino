@@ -43,14 +43,25 @@ void loop () {
   if (client) {
     Serial.println ("Connection started");
     String request = "";
-    boolean add = false;
+    String type = "";
+    int add = 0;
     while (client.connected ()) {
       if (client.available ()) {
         char readed = client.read ();
-        if (add) {
-          request += readed;
+
+        if (readed == ' ') {
+          add ++;
+        } else {
+          switch (add) {
+            case 0:
+              type += readed;
+              break;
+            case 1:
+              request += readed;
+              break;
+          }
         }
-        add = add == ((readed == ' ') == false); //Toggle add if readed char is an space
+
         if (readed == '\n') {
           client.println ("HTTP/1.1 200 OK");
           client.println ("Content-Type: text/html");
@@ -58,7 +69,12 @@ void loop () {
           client.println ();
 
           //Process and send response to the request
-          process (client, getPath (request), getArgs (request));//Redirect processing to a specialized function
+          Serial.println (type);
+          if (type == "GET") {
+            processGET (client, getPath (request), getArgs (request));//Redirect processing to a specialized function
+          } else if (type == "POST") {
+            Serial.println ("post request");
+          }
 
           Serial.println (request);
           Serial.println ("------------");
