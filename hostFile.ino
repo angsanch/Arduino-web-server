@@ -1,6 +1,7 @@
 File file;
 void hostFile (String filename, EthernetClient client) {
   // send web page
+  Serial.println (filename);
   file = SD.open(filename);        // open web page file
   if (file) {
     while (file.available()) {
