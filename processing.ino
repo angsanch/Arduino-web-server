@@ -50,6 +50,6 @@ void processGET (EthernetClient client, String path, String arguments) {
   } else if (path.indexOf (".") > 0){
     hostFile (path, client);
   } else {
-    hostFile ("/filenotfound.htm", client);
+    hostFile ("notfound.htm", client);
   }
 }
