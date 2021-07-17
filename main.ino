@@ -44,7 +44,9 @@ void setup () {
   //Get port
   long port = SD.open ("config/port.txt").readStringUntil ('\n').toInt ();
 
+  //MAC setup
   byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
+  
   Ethernet.begin (mac, ip);
   server.begin ();
   Serial.print ("Server started at ");
