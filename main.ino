@@ -8,7 +8,7 @@ String getPath (String input) {
   if (index != -1) {
     return input.substring (1, index);//If there are args
   }
-  return input.substring (0, input.length ());//If there isnt any args
+  return input.substring (1, input.length ());//If there isnt any args
 }
 String getArgs (String input) {
   int index = input.indexOf ("?");
