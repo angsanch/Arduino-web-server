@@ -18,8 +18,6 @@ String getArgs (String input) {
   return "";//If there isnt any args
 }
 
-byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-IPAddress ip (192, 168, 138, 202);
 EthernetServer server (42069);
 
 void setup () {
@@ -33,6 +31,17 @@ void setup () {
   }
 
   //Ethernet initialization
+  //Get IP
+  String Sip = SD.open ("config/ip.txt").readStringUntil ('\n');
+  int ipList [4];
+  for (int i = 0; i < 4; i++) {
+    int index = Sip.indexOf (".");
+    ipList [i] = Sip.substring (0, index).toInt ();
+    Sip = Sip.substring (index + 1, Sip.length ());
+  }
+  IPAddress ip (ipList [0], ipList [1], ipList [2], ipList [3]);
+  
+  byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
   Ethernet.begin (mac, ip);
   server.begin ();
   Serial.print ("Server started at ");
