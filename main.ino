@@ -40,7 +40,10 @@ void setup () {
     Sip = Sip.substring (index + 1, Sip.length ());
   }
   IPAddress ip (ipList [0], ipList [1], ipList [2], ipList [3]);
-  
+
+  //Get port
+  long port = SD.open ("config/port.txt").readStringUntil ('\n').toInt ();
+
   byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
   Ethernet.begin (mac, ip);
   server.begin ();
