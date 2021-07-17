@@ -46,11 +46,16 @@ void setup () {
 
   //MAC setup
   byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-  
+
+  //Server setup
   Ethernet.begin (mac, ip);
+  server = EthernetServer (port);
   server.begin ();
-  Serial.print ("Server started at ");
-  Serial.println (Ethernet.localIP ());
+
+  Serial.print ("Server started at http://");
+  Serial.print (Ethernet.localIP ());
+  Serial.print (':');
+  Serial.println (port);
 }
 void loop () {
   EthernetClient client = server.available ();
