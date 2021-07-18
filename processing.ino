@@ -46,10 +46,10 @@ class Args {
 
 void processGET (EthernetClient client, String path, String arguments) {
   if (path == "/"){
-    hostFile ("index.htm", client);
+    hostFile ("/index.htm", client);
   } else if (path.indexOf (".") > 0){
     hostFile (path, client);
   } else {
-    hostFile ("notfound.htm", client);
+    hostFile ("/notfound.htm", client);
   }
 }

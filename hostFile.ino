@@ -1,5 +1,5 @@
 File file;
-void hostFile (String filename, EthernetClient client, String basePath = "htdocs/") {
+void hostFile (String filename, EthernetClient client, String basePath = "htdocs") {
   // send web page
   filename = basePath + filename;
   Serial.println (filename);
