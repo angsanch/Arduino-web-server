@@ -11,3 +11,16 @@ void hostFile (String filename, EthernetClient client, String basePath = "htdocs
     file.close();
   }
 }
+
+void sendHeader (EthernetClient client, String status_code){
+  String status_message = sd.open ("/info/codes/" + status_code).readStringUntil ('\n');
+  file = sd.open ("/info/templates/header.txt");
+  while (file.available () > 0){
+    String line = file.readStringUntil ('\n');
+    line.replace ("~sc~", status_code);
+    line.replace ("~sm~", status_message);
+    line.replace ("~ct~", "text/html");
+    client.println (line);
+  }
+  client.println ();
+}
