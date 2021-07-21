@@ -1,7 +1,8 @@
 #include <SPI.h>
-#include <SD.h>
+#include <SdFat.h>
 #include <Ethernet.h>
 
+SdFat sd;
 
 String getPath (String input) {
   int index = input.indexOf ("?");
@@ -24,7 +25,7 @@ void setup () {
   //SD card initialization
   Serial.begin (9600);
   Serial.println ("Initializing SD card...");
-  if (!SD.begin (4)) {
+  if (!sd.begin (4, SPI_HALF_SPEED)) {
     Serial.println ("SD card initialization failed!");
   } else {
     Serial.println ("SD card initialization succesful!");
@@ -32,7 +33,7 @@ void setup () {
 
   //Ethernet initialization
   //Get IP
-  String Sip = SD.open ("config/ip.txt").readStringUntil ('\n');
+  String Sip = sd.open ("config/ip.txt").readStringUntil ('\n');
   int ipList [4];
   for (int i = 0; i < 4; i++) {
     int index = Sip.indexOf (".");
@@ -42,7 +43,7 @@ void setup () {
   IPAddress ip (ipList [0], ipList [1], ipList [2], ipList [3]);
 
   //Get port
-  long port = SD.open ("config/port.txt").readStringUntil ('\n').toInt ();
+  long port = sd.open ("config/port.txt").readStringUntil ('\n').toInt ();
 
   //MAC setup
   byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
