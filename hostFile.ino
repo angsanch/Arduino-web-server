@@ -12,15 +12,20 @@ void hostFile (String filename, EthernetClient client, String basePath = "htdocs
   }
 }
 
-void sendHeader (EthernetClient client, String status_code){
+void sendHeader (EthernetClient client, String status_code, String content_type){
   String status_message = sd.open ("/info/codes/" + status_code).readStringUntil ('\n');
   file = sd.open ("/info/templates/header.txt");
   while (file.available () > 0){
     String line = file.readStringUntil ('\n');
     line.replace ("~sc~", status_code);
     line.replace ("~sm~", status_message);
-    line.replace ("~ct~", "text/html");
+    line.replace ("~ct~", content_type);
     client.println (line);
   }
   client.println ();
+}
+
+void response (EthernetClient client, String filename, String status_code){
+  sendHeader (client, status_code, "text/html");
+  hostfile (filename, client);
 }
