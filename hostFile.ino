@@ -27,5 +27,5 @@ void sendHeader (EthernetClient client, String status_code, String content_type)
 
 void response (EthernetClient client, String filename, String status_code){
   sendHeader (client, status_code, "text/html");
-  hostfile (filename, client);
+  hostFile (filename, client);
 }

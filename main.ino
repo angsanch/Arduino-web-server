@@ -83,8 +83,6 @@ void loop () {
         }
 
         if (readed == '\n') {
-          sendHeader (client, "200");
-
           //Process and send response to the request
           Serial.println (type);
           if (type == "GET") {
