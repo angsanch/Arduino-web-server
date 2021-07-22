@@ -26,6 +26,11 @@ void sendHeader (EthernetClient client, String status_code, String content_type)
 }
 
 void response (EthernetClient client, String filename, String status_code){
-  sendHeader (client, status_code, "text/html");
+  sendHeader (client, status_code, getContentType (filename.substring (filename.lastIndexOf ('.') + 1, filename.length ())));
   hostFile (filename, client);
+}
+
+String getContentType (String fileFormat){
+  Serial.println ("info/content-type/" + fileFormat);
+  return sd.open ("info/content-type/" + fileFormat).readStringUntil ('\n');
 }
