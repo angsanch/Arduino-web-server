@@ -45,9 +45,9 @@ class Args {
 };
 
 void processGET (EthernetClient client, String path, String arguments) {
-  if (path == "/"){
+  if (path == "/") {
     response (client, "/index.htm", "200");
-  } else if (path.indexOf (".") > 0){
+  } else if (path.indexOf (".") > 0) {
     response (client, path, "200");
   } else {
     response (client, "/notfound.htm", "404");
