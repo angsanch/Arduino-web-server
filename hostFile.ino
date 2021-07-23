@@ -1,16 +1,23 @@
-File32 file;
-void hostFile (String filename, EthernetClient client, String basePath = "htdocs") {
-  // send web page
-  filename = basePath + filename;
-  Serial.println (filename);
-  file = sd.open(filename);        // open web page file
-  if (file) {
-    while (file.available()) {
-      client.write(file.read()); // send web page to client
+class hoster {
+  private:
+  File32 hosted;
+
+  public:
+    void hostFile (String filename, EthernetClient client, String basePath = "htdocs") {
+      // send web page
+      filename = basePath + filename;
+      Serial.println (filename);
+      hosted = sd.open(filename);        // open web page file
+      if (hosted) {
+        while (hosted.available()) {
+          client.write(hosted.read()); // send web page to client
+        }
+        hosted.close();
+      }
     }
-    file.close();
-  }
-}
+};
+
+File32 file;
 
 void sendHeader (EthernetClient client, String status_code, String content_type){
   String status_message = sd.open ("/info/codes/" + status_code).readStringUntil ('\n');
@@ -27,7 +34,7 @@ void sendHeader (EthernetClient client, String status_code, String content_type)
 
 void response (EthernetClient client, String filename, String status_code){
   sendHeader (client, status_code, getContentType (filename.substring (filename.lastIndexOf ('.') + 1, filename.length ())));
-  hostFile (filename, client);
+  hostFile.hostFile (filename, client);
 }
 
 String getContentType (String fileFormat){
