@@ -1,11 +1,17 @@
-class hoster {
+class Hoster {
   private:
   File32 hosted;
+  String filename;
+  EthernetClient client;
 
   public:
-    void hostFile (String filename, EthernetClient client, String basePath = "htdocs") {
+    Hoster (String fileName, EthernetClient eclient, String basePath = "htdocs"){
+      filename = basePath + fileName;
+      client = eclient;
+    }
+    
+    void hostFile () {
       // send web page
-      filename = basePath + filename;
       Serial.println (filename);
       hosted = sd.open(filename);        // open web page file
       if (hosted) {
@@ -34,7 +40,7 @@ void sendHeader (EthernetClient client, String status_code, String content_type)
 
 void response (EthernetClient client, String filename, String status_code){
   sendHeader (client, status_code, getContentType (filename.substring (filename.lastIndexOf ('.') + 1, filename.length ())));
-  hostFile.hostFile (filename, client);
+  Hoster (filename, client).hostFile ();
 }
 
 String getContentType (String fileFormat){
