@@ -7,18 +7,18 @@ class Hoster {
     String filename;
 
   public:
-    Hoster (EthernetClient eclient, String estatus_code, String econtent_type, String fileName, String basePath = "htdocs") {
+    Hoster (EthernetClient eclient, String estatus_code, String econtent_type, File32 file) {
       client = eclient;
       status_code = estatus_code;
       content_type = econtent_type;
-      filename = basePath + fileName;
+      hosted = file;
     }
 
     void sendHeader () {
       String status_message = sd.open ("/info/codes/" + status_code).readStringUntil ('\n');
-      hosted = sd.open ("/info/templates/header.txt");
-      while (hosted.available () > 0) {
-        String line = hosted.readStringUntil ('\n');
+      File32 header = sd.open ("/info/templates/header.txt");
+      while (header.available () > 0) {
+        String line = header.readStringUntil ('\n');
         line.replace ("~sc~", status_code);
         line.replace ("~sm~", status_message);
         line.replace ("~ct~", content_type);
@@ -29,8 +29,6 @@ class Hoster {
 
     void hostFile () {
       // send web page
-      Serial.println (filename);
-      hosted = sd.open(filename);        // open web page file
       if (hosted) {
         while (hosted.available()) {
           client.write(hosted.read()); // send web page to client
@@ -43,7 +41,10 @@ class Hoster {
 File32 file;
 
 void response (EthernetClient client, String filename, String status_code) {
-  Hoster host (client, status_code, getContentType (filename.substring (filename.lastIndexOf ('.') + 1, filename.length ())), filename);
+  filename = "htdocs" + filename;
+  Serial.print ('-');
+  Serial.println (filename);
+  Hoster host (client, status_code, getContentType (filename.substring (filename.lastIndexOf ('.') + 1, filename.length ())), sd.open (filename));
   host.sendHeader ();
   host.hostFile ();
 }
