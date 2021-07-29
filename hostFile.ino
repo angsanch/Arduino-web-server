@@ -38,8 +38,6 @@ class Hoster {
     }
 };
 
-File32 file;
-
 void response (EthernetClient client, String filename, String status_code) {
   filename = "htdocs" + filename;
   Serial.print ('-');
