@@ -21,6 +21,12 @@ String getArgs (String input) {
 
 EthernetServer server (42069);
 
+EthernetClient list_clients [0];
+bool list_availability [0];
+File32 list_files [0];
+int client_amount;
+
+
 void setup () {
   //SD card initialization
   Serial.begin (9600);
@@ -57,6 +63,12 @@ void setup () {
   Serial.print (Ethernet.localIP ());
   Serial.print (':');
   Serial.println (port);
+
+  //Initialize clients
+  const int client_amount = sd.open ("config/clients.txt").readStringUntil ('\n').toInt ();
+  Serial.print ("The server can host ");
+  Serial.print (client_amount);
+  Serial.println (" clients at once");
 }
 void loop () {
   EthernetClient client = server.available ();
